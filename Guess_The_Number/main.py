@@ -12,7 +12,13 @@ def guess():
     random_number = random.randint(1,char)
 
     while True:
-        guess = int(input(f"\nGuess a number between 1 and {char}: "))
+        while True:
+            try:
+                guess = int(input(f"\nGuess a number between 1 and {char}: "))
+            except(ValueError):
+                print("Please input a number!")
+            else:
+                break
         
         if guess == random_number:
             level += 1
@@ -20,15 +26,15 @@ def guess():
             print("\nYay you got it")
             print(f"The secret number is {random_number}")
 
-            if level >= 50:
+            if char >= 50:
                 lives += 5
                 print(" +5 lives")
                 print(f"Total lives: {lives}")
-            elif level >= 30:
+            elif char >= 30:
                 lives += 3
                 print(" +3 lives")
                 print(f"Total lives: {lives}")
-            elif level >= 10:
+            elif char >= 10:
                 lives += 2
                 print(" +2 lives")
                 print(f"Total lives: {lives}")
@@ -53,7 +59,6 @@ def guess():
         elif guess < random_number:
             lives -= 1
             print("\nToo low, try again!")
-            print("\nToo high, Try again!")
             print(" -1 life")
             print(f"Total lives: {lives}")
             
