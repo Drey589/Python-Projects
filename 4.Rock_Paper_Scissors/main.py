@@ -10,8 +10,8 @@ def play():
             "p": "Paper",
             "s": "Scisorr"
         }
-        user = valid_choice(user)
         computer = random.choice(['r', 'p','s'])
+        user = valid_choice(user)
         print(f"\nYou: {choice[user]}\nComputer: {choice[computer]}\n")
         if user == computer:
             print("It's a tie, again")
