@@ -113,21 +113,33 @@ class SmartComputerPlayer(Player):
 
 
     def minimax(self, state, player):
-        max_player = self.letter  # yourself
-        other_player = 'O' if player == 'X' else 'X'
-    
+        max_player = self.letter  # AI letter
+        other_player = 'O' if player == 'X' else 'X' # Opponents letter
+
+    # The else statement will simulate all the possible moves and it's gameplay result until someone have won, or it's a tie
+    # The two if below will score every simulation
         if state.current_winner == other_player:
-            return {'position': None, 'score': 1 * (state.num_empty_squares() + 1) if other_player == max_player else -1 * (
-                        state.num_empty_squares() + 1)}
+            # if someone win score = number_emptysquare + 1 * 1(if we win) or -1 ( if we lose)
+            # Our best will be highest positive number
+            # So we want to score simulation that lead us to victory to be positive so we can pick it
+            # and we want to score the simulation that leads opponents victory to be negative so we couldn't pick it
+            # because negative are the lowest numbers and our best move will always be highest possible number
+            return {'position': None, 'score': 1 * (state.num_empty_squares() + 1) if other_player == max_player else -1 * (state.num_empty_squares() + 1)}
         elif not state.empty_squares():
+            # If it's a tie score = 0
             return {'position': None, 'score': 0}
 
+    
         if player == max_player:
-            best = {'position': None, 'score': -math.inf}  # each score should maximize
+        # If it is our turn this will save the high score 
+            best = {'position': None, 'score': -math.inf}
         else:
+        # We save lowest possible score for our opponent
             best = {'position': None, 'score': math.inf}  # each score should minimize
+    #   Iterate every possible moves in the current game state
         for possible_move in state.available_moves():
-            state.make_move(possible_move, player)
+            # we make every possible move that we can simutaneusly with every possible move that our opponent can
+            state.make_move(possible_move, player) 
             sim_score = self.minimax(state, other_player)  # simulate a game after making that move
 
             # undo move
